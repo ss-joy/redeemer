@@ -58,7 +58,7 @@
   },
   "workspaces": {
     "packages": [
-      "extensions/*"
+      "extensions/**"
     ]
   },
   "trustedDependencies": [
