@@ -41,3 +41,19 @@ model NewCustomers {
   @@unique([customerId, shopName])
   @@map("new_customers")
 }
+
+model loggedInUserTracks {
+  id               String   @id @default(cuid())
+  customerId       Int      @map("customer_id")
+  pageUrl          String   @map("page_url")
+  pagePathName     String   @map("page_pathname")
+  browserInfo      String   @map("browser_info")
+  shopName         String   @map("shop_name")
+  visitedPageTitle String   @map("visited_page_title")
+  shopId           String   @map("shop_id")
+  productId        String?  @default("") @map("product_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  duration         Int
+
+  @@map("logged_in_users_tracks")
+}
