@@ -18,7 +18,8 @@
     "graphql-codegen": "graphql-codegen",
     "vite": "vite",
     "db:migrate-dev":"prisma migrate dev",
-    "db:generate":"prisma migrate generate"
+    "db:generate":"prisma migrate generate",
+    "user-traffic-tracker:dev:build":"pnpm -F @redeemer/user-traffic-tracker run dev:build"
   },
   "type": "module",
   "engines": {
