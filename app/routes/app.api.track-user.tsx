@@ -9,10 +9,14 @@ export async function action({ request }: ActionFunctionArgs) {
   try {
     const body = await request.json();
     const { action, data } = body;
+    const ipAddress = request.headers.get("x-forwarded-for");
 
     switch (action) {
       case "page_visit_start":
-        const visitRecord = await trackingService.trackPageVisitStart(data);
+        const visitRecord = await trackingService.trackPageVisitStart({
+          ...data,
+          ipAddress,
+        });
 
         return SuccessResponseWithCors({
           request,

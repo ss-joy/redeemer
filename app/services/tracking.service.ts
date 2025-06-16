@@ -15,6 +15,7 @@ export interface PageVisitData {
   deviceType: string;
   referrer?: string | null;
   startTime: string;
+  ipAddress: string;
 }
 
 export interface PageVisitEndData {
@@ -41,6 +42,7 @@ async function trackPageVisitStart(data: PageVisitData) {
       startTime: new Date(data.startTime),
       deviceType: data.deviceType,
       referrer: data.referrer,
+      ipAddress: data.ipAddress,
     },
   });
 

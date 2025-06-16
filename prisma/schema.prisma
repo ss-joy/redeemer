@@ -42,7 +42,6 @@ model NewCustomers {
   @@map("new_customers")
 }
 
-
 model UserPageVisits {
   id               String    @id @default(cuid())
   customerId       String?   @map("customer_id")
