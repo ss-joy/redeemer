@@ -25,7 +25,7 @@ export function handleErrors(error: unknown, message: string): ErrorData {
   return errorObject;
 }
 
-export async function returnSuccessResponseWithCors({
+export async function SuccessResponseWithCors({
   data = {},
   message = "success",
   origin = "*",
@@ -45,7 +45,7 @@ export async function returnSuccessResponseWithCors({
   );
 }
 
-export async function returnErrorResponseWithCors({
+export async function ErrorResponseWithCors({
   error,
   message = "Something went wrong",
   origin = "*",

@@ -1,24 +1,46 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import {
-  returnErrorResponseWithCors,
-  returnSuccessResponseWithCors,
+  ErrorResponseWithCors,
+  SuccessResponseWithCors,
 } from "app/lib/response.app.lib";
+import trackingService from "app/services/tracking.service";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {
-    //implemenmt later
+    const body = await request.json();
+    const { action, data } = body;
+
+    switch (action) {
+      case "page_visit_start":
+        const visitRecord = await trackingService.trackPageVisitStart(data);
+
+        return SuccessResponseWithCors({
+          request,
+          data: { visitId: visitRecord.id },
+          message: "Page visit tracked successfully",
+        });
+        break;
+
+      case "page_visit_end":
+        await trackingService.trackPageVisitEnd(data);
+        return SuccessResponseWithCors({
+          request,
+          message: "Page visit end tracked successfully",
+        });
+        break;
+
+      default:
+        return SuccessResponseWithCors({ request });
+    }
   } catch (error) {
-    return returnErrorResponseWithCors({ request, error });
+    return ErrorResponseWithCors({ request, error });
   }
 }
 
-export async function loader({ request }: ActionFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   try {
-    //implemenmt later
-    console.log("hit khaise");
-
-    return returnSuccessResponseWithCors({ request });
+    return SuccessResponseWithCors({ request });
   } catch (error) {
-    return returnErrorResponseWithCors({ request, error });
+    return ErrorResponseWithCors({ request, error });
   }
 }

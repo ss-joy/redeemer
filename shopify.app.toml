@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "96b0459626063b1c4f0686b444f76bd9"
-application_url = "https://summer-toys-philip-gis.trycloudflare.com"
+application_url = "https://include-cork-und-fame.trycloudflare.com"
 embedded = true
 name = "redeemer"
 handle = "redeemer-1"
@@ -27,9 +27,9 @@ scopes = "read_customers,write_products"
 
 [auth]
 redirect_urls = [
-  "https://summer-toys-philip-gis.trycloudflare.com/auth/callback",
-  "https://summer-toys-philip-gis.trycloudflare.com/auth/shopify/callback",
-  "https://summer-toys-philip-gis.trycloudflare.com/api/auth/callback"
+  "https://include-cork-und-fame.trycloudflare.com/auth/callback",
+  "https://include-cork-und-fame.trycloudflare.com/auth/shopify/callback",
+  "https://include-cork-und-fame.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

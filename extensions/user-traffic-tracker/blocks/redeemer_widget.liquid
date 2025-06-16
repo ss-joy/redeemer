@@ -1,9 +1,11 @@
 <div
   id="app-data-store"
-  data-product-id="{{ product.id }}"
-  data-customer-id="{{ customer.id }}"
+  data-product-id="{{ product.id | default: '' }}"
+  data-customer-id="{{ customer.id | default: '' }}"
   data-shop-id="{{ shop.id | json }}"
   data-shop-domain="{{ shop.domain }}"
+  data-collection-id="{{ collection.id | default: '' }}"
+  data-page-type="{{ template.name | default: 'unknown' }}"
 ></div>
 
 <div id="react-root"></div>

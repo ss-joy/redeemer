@@ -42,18 +42,32 @@ model NewCustomers {
   @@map("new_customers")
 }
 
-model loggedInUserTracks {
-  id               String   @id @default(cuid())
-  customerId       Int      @map("customer_id")
-  pageUrl          String   @map("page_url")
-  pagePathName     String   @map("page_pathname")
-  browserInfo      String   @map("browser_info")
-  shopName         String   @map("shop_name")
-  visitedPageTitle String   @map("visited_page_title")
-  shopId           String   @map("shop_id")
-  productId        String?  @default("") @map("product_id")
-  createdAt        DateTime @default(now()) @map("created_at")
-  duration         Int
 
-  @@map("logged_in_users_tracks")
+model UserPageVisits {
+  id               String    @id @default(cuid())
+  customerId       String?   @map("customer_id")
+  sessionId        String    @map("session_id")
+  pageUrl          String    @map("page_url")
+  pagePathName     String    @map("page_pathname")
+  pageType         String    @map("page_type")
+  browserInfo      String    @map("browser_info")
+  shopName         String    @map("shop_name")
+  shopId           String    @map("shop_id")
+  visitedPageTitle String    @map("visited_page_title")
+  productId        String?   @map("product_id")
+  collectionId     String?   @map("collection_id")
+  startTime        DateTime  @map("start_time")
+  endTime          DateTime? @map("end_time")
+  duration         Int?      @default(0)
+  deviceType       String?   @map("device_type") // mobile, desktop, tablet
+  referrer         String?   @map("referrer")
+  ipAddress        String?   @map("ip_address")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  @@index([customerId])
+  @@index([sessionId])
+  @@index([pageType])
+  @@index([productId])
+  @@index([shopId])
+  @@map("user_page_visits")
 }

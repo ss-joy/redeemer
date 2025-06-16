@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
-import { recordNewCustomerSignup } from "app/queries/api/customers.query.server";
+import { recordNewCustomerSignup } from "app/services/customer.service";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {

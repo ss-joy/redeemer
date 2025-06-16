@@ -6,7 +6,7 @@ type ShopInfo = {
   shopId: string;
   shopName: string;
 };
-export async function getShopInfo(admin: TAdmin): Promise<ShopInfo> {
+async function getShopInfo(admin: TAdmin): Promise<ShopInfo> {
   const res = await admin?.graphql(`
     query{
       shop{
@@ -21,3 +21,5 @@ export async function getShopInfo(admin: TAdmin): Promise<ShopInfo> {
     shopName: data.shop.name,
   };
 }
+const shopService = { getShopInfo };
+export default shopService;
