@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
-import { recordNewCustomerSignup } from "app/services/customer.service";
+import customerService from "app/services/customer.service";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {
@@ -10,7 +10,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
     switch (topic) {
       case "CUSTOMERS_CREATE":
-        await recordNewCustomerSignup({
+        await customerService.handleNewCustomerSignup({
           admin,
           customerId: payload.id.toString(),
         });
@@ -18,7 +18,7 @@ export async function action({ request }: ActionFunctionArgs) {
         break;
     }
   } catch (error) {
-    console.log("errror");
+    console.log("errror in webhooke.customers.tsx file");
     console.log(error);
     return new Response(null, { status: 500 });
   }

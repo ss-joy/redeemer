@@ -1,6 +1,6 @@
-import prisma from "app/db.server";
-
 import type { AdminApiContextWithoutRest } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
+
+import prisma from "app/db.server";
 import shopService from "./shop.service";
 
 type TRecordNewCustomerSignup = {
@@ -8,7 +8,7 @@ type TRecordNewCustomerSignup = {
   admin: AdminApiContextWithoutRest;
 };
 
-export async function recordNewCustomerSignup({
+async function handleNewCustomerSignup({
   admin,
   customerId,
 }: TRecordNewCustomerSignup) {
@@ -22,3 +22,9 @@ export async function recordNewCustomerSignup({
     },
   });
 }
+
+const customerService = {
+  handleNewCustomerSignup,
+};
+
+export default customerService;
