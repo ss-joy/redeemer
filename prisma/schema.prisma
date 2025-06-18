@@ -96,15 +96,17 @@ model ShopRewardRules {
   @@unique([shopName, shopId, ruleType])
 }
 
-model CusomerRewards {
-  id                    String   @id @default(cuid())
-  customerId            String   @map("customer_id")
-  shopName              String   @map("shop_name")
-  shopId                String   @map("shop_id")
-  totalPointsEarnedEver Int      @default(0) @map("total_points_earned_ever")
-  totalUsedPoints       Int      @default(0) @map("total_used_points")
-  availablePoints       Int      @default(0) @map("available_points")
-  createdAt             DateTime @default(now()) @map("created_at")
+model CustomerRewards {
+  id         String @id @default(cuid())
+  customerId String @map("customer_id")
+  shopName   String @map("shop_name")
+  shopId     String @map("shop_id")
+
+  totalUsedPoints Int      @default(0) @map("total_used_points")
+  availablePoints Int      @default(0) @map("available_points")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@unique([customerId, shopName, shopId])
 }
 
 enum TransactioType {

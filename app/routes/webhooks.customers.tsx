@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
 import customerService from "app/services/customer.service";
+import rewardService from "app/services/rewardService";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {
@@ -11,6 +12,10 @@ export async function action({ request }: ActionFunctionArgs) {
     switch (topic) {
       case "CUSTOMERS_CREATE":
         await customerService.handleNewCustomerSignup({
+          admin,
+          customerId: payload.id.toString(),
+        });
+        await rewardService.grantNewUserSignUpReward({
           admin,
           customerId: payload.id.toString(),
         });
