@@ -40,8 +40,88 @@ async function grantNewUserSignUpReward({
   });
 }
 
+export interface PageVisitData {
+  customerId?: string | null;
+  sessionId: string;
+  pageUrl: string;
+  pagePathName: string;
+  pageType: string;
+  browserInfo: string;
+  shopId: string;
+  shopName: string;
+  visitedPageTitle: string;
+  productId?: string | null;
+  collectionId?: string | null;
+  deviceType: string;
+  referrer?: string | null;
+  startTime: string;
+  ipAddress: string;
+}
+async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
+  if (!data.customerId) {
+    console.log(
+      "No customer ID provided, customer is not logged in. Skipping reward grant.",
+    );
+    return;
+  }
+
+  const rule = await prisma.shopRewardRules.findUnique({
+    where: {
+      shopName_shopId_ruleType: {
+        shopId: data.shopId,
+        shopName: data.shopName,
+        ruleType: "STORE_VISIT",
+      },
+    },
+  });
+
+  if (!rule) {
+    console.log(
+      `No store visit reward rules found for shop: ${data.shopName} with ID: ${data.shopId}`,
+    );
+    console.log(
+      `Customer ID: ${data.customerId} will not receive any rewards.`,
+    );
+    return;
+  }
+
+  const customerFound = await prisma.customerRewards.findUnique({
+    where: {
+      customerId_shopName_shopId: {
+        customerId: data.customerId as string,
+        shopId: data.shopId,
+        shopName: data.shopName,
+      },
+    },
+  });
+  if (customerFound) {
+    await prisma.customerRewards.update({
+      where: {
+        customerId_shopName_shopId: {
+          customerId: data.customerId as string,
+          shopId: data.shopId,
+          shopName: data.shopName,
+        },
+      },
+      data: {
+        availablePoints: customerFound.availablePoints + rule.rewardPoints,
+      },
+    });
+  } else if (!customerFound) {
+    await prisma.customerRewards.create({
+      data: {
+        customerId: data.customerId as string,
+        shopName: data.shopName,
+        shopId: data.shopId,
+        availablePoints: rule.rewardPoints,
+      },
+    });
+  }
+}
+
 const rewardService = {
   grantNewUserSignUpReward,
+  grantRewardsToStoreVisitingUsers,
 };
 
 export default rewardService;

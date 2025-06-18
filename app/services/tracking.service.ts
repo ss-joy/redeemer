@@ -8,7 +8,7 @@ export interface PageVisitData {
   pageType: string;
   browserInfo: string;
   shopId: string;
-  shopDomain: string;
+  shopName: string;
   visitedPageTitle: string;
   productId?: string | null;
   collectionId?: string | null;
@@ -34,7 +34,7 @@ async function trackPageVisitStart(data: PageVisitData) {
       pagePathName: data.pagePathName,
       pageType: data.pageType,
       browserInfo: data.browserInfo,
-      shopName: data.shopDomain,
+      shopName: data.shopName,
       shopId: data.shopId,
       visitedPageTitle: data.visitedPageTitle,
       productId: data.productId,

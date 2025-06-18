@@ -46,4 +46,5 @@ export function getSessionFromStorage(): string {
   return sessionId;
 }
 
-export const backendUrl = "https://include-cork-und-fame.trycloudflare.com";
+export const backendUrl =
+  "https://bloomberg-argued-hughes-des.trycloudflare.com";

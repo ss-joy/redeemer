@@ -3,6 +3,7 @@ import {
   ErrorResponseWithCors,
   SuccessResponseWithCors,
 } from "app/lib/response.app.lib";
+import rewardService from "app/services/rewardService";
 import trackingService from "app/services/tracking.service";
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -14,6 +15,11 @@ export async function action({ request }: ActionFunctionArgs) {
     switch (action) {
       case "page_visit_start":
         const visitRecord = await trackingService.trackPageVisitStart({
+          ...data,
+          ipAddress,
+        });
+
+        await rewardService.grantRewardsToStoreVisitingUsers({
           ...data,
           ipAddress,
         });

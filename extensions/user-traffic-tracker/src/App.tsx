@@ -9,7 +9,7 @@ import {
 
 interface TrackingData {
   productId?: string;
-  shopDomain?: string;
+  shopName?: string;
   shopId?: string;
   customerId?: string;
   collectionId?: string;
@@ -18,7 +18,7 @@ interface TrackingData {
 function App() {
   const [trackingData, setTrackingData] = useState<TrackingData>({
     productId: undefined,
-    shopDomain: undefined,
+    shopName: undefined,
     shopId: undefined,
     customerId: undefined,
     collectionId: undefined,
@@ -52,7 +52,7 @@ function App() {
           divElement?.dataset.customerId === ""
             ? undefined
             : divElement?.dataset.customerId,
-        shopDomain: divElement?.dataset.shopDomain,
+        shopName: divElement?.dataset.shopName,
         collectionId:
           divElement?.dataset.collectionId === ""
             ? undefined
@@ -77,7 +77,7 @@ function App() {
         pageType: detectPageType(),
         browserInfo: navigator.userAgent,
         shopId: trackingData.shopId || null,
-        shopDomain: trackingData.shopDomain || null,
+        shopName: trackingData.shopName || null,
         visitedPageTitle: document.title,
         productId: trackingData.productId || null,
         collectionId: trackingData.collectionId || null,
