@@ -70,3 +70,55 @@ model UserPageVisits {
   @@index([shopId])
   @@map("user_page_visits")
 }
+
+enum RuleType {
+  STORE_VISIT
+  NEW_CUSTOMER
+}
+
+model ShopRewardRules {
+  id       String   @id @default(cuid())
+  shopName String   @map("shop_name")
+  shopId   String   @map("shop_id")
+  ruleType RuleType @map("rule_type")
+
+  ruleName String @map("rule_name")
+
+  rewardPoints       Int @default(0) @map("reward_points")
+  totalAwardedPoints Int @default(0) @map("total_awarded_points")
+  totalAwaredCount   Int @default(0) @map("total_awarded_count")
+
+  isActive Boolean @default(false) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([shopName, shopId, ruleType])
+}
+
+model CusomerRewards {
+  id                    String   @id @default(cuid())
+  customerId            String   @map("customer_id")
+  shopName              String   @map("shop_name")
+  shopId                String   @map("shop_id")
+  totalPointsEarnedEver Int      @default(0) @map("total_points_earned_ever")
+  totalUsedPoints       Int      @default(0) @map("total_used_points")
+  availablePoints       Int      @default(0) @map("available_points")
+  createdAt             DateTime @default(now()) @map("created_at")
+}
+
+enum TransactioType {
+  EARNED
+  USED
+}
+
+model PointsTransaction {
+  id                     String         @id @default(cuid())
+  customerId             String         @map("customer_id")
+  shopName               String         @map("shop_name")
+  shopId                 String         @map("shop_id")
+  totalTransaactedPoints Int            @default(0) @map("total_transacted_points")
+  transactionType        TransactioType @map("transaction_type")
+  transactionReason      RuleType       @map("transaction_reason")
+  createdAt              DateTime       @default(now()) @map("created_at")
+}
