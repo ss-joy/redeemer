@@ -198,7 +198,7 @@ function App() {
 
   return (
     <>
-      <div className="tw-fixed z-[100] tw-left-11 tw-bottom-11 tw-border-2 tw-border-red-700 !roboto">
+      <div className="tw-fixed tw-z-10 tw-left-11 tw-bottom-11 tw-border-2 tw-border-red-700 !roboto">
         <AnimatePresence>
           {infoOpen && (
             <motion.section
@@ -267,7 +267,7 @@ function App() {
 
               {/* Welcome Message */}
 
-              <h2 className="!tw-text-2xl !tw-font-bold tw-flex !tw-text-white tw-items-center tw-gap-2 tw-m-0 !roboto">
+              <h2 className="!tw-text-3xl !tw-font-bold tw-flex !tw-text-white tw-items-center tw-gap-2 tw-m-0 !roboto">
                 Welcome
                 <span className="tw-text-yellow-400">👋</span>
               </h2>
@@ -369,14 +369,14 @@ function App() {
 
                   {/* Transaction History */}
                   <div className="tw-text-center ">
-                    <h3 className="tw-font-semibold tw-mb-2 !tw-text-slate-700">
+                    <h3 className="tw-font-semibold !tw-my-2 !tw-text-slate-700 !roboto">
                       Transaction history
                     </h3>
-                    <p className="tw-text-sm tw-mb-4 !tw-text-slate-700">
+                    <p className="!tw-text-sm tw-mb-4 !tw-text-slate-700 !roboto">
                       See the list of your points/credits earned and redeemed
                       activities
                     </p>
-                    <p className=" tw-text-xs !tw-text-slate-700">
+                    <p className=" tw-text-xs !tw-text-slate-700 !roboto">
                       Redeemer Loyalty & Rewards
                     </p>
                   </div>
