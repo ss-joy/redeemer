@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "96b0459626063b1c4f0686b444f76bd9"
-application_url = "https://editions-earn-people-gothic.trycloudflare.com"
+application_url = "https://editorial-meeting-list-riders.trycloudflare.com"
 embedded = true
 name = "redeemer"
 handle = "redeemer-1"
@@ -27,9 +27,9 @@ scopes = "read_customers,write_products"
 
 [auth]
 redirect_urls = [
-  "https://editions-earn-people-gothic.trycloudflare.com/auth/callback",
-  "https://editions-earn-people-gothic.trycloudflare.com/auth/shopify/callback",
-  "https://editions-earn-people-gothic.trycloudflare.com/api/auth/callback"
+  "https://editorial-meeting-list-riders.trycloudflare.com/auth/callback",
+  "https://editorial-meeting-list-riders.trycloudflare.com/auth/shopify/callback",
+  "https://editorial-meeting-list-riders.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
