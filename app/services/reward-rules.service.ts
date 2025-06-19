@@ -14,8 +14,7 @@ async function createRewardRule(
 
   const sameRuleExists = await prisma.shopRewardRules.findUnique({
     where: {
-      shopName_shopId_ruleType: {
-        shopName,
+      shopId_ruleType: {
         shopId,
         ruleType,
       },
@@ -25,8 +24,7 @@ async function createRewardRule(
   if (sameRuleExists) {
     await prisma.shopRewardRules.update({
       where: {
-        shopName_shopId_ruleType: {
-          shopName,
+        shopId_ruleType: {
           shopId,
           ruleType,
         },
@@ -87,12 +85,11 @@ async function updateRewardRuleByShopId(
   rewardPoints: number,
   ruleName: string,
 ) {
-  const { shopId, shopName } = await shopService.getShopInfo(admin);
+  const { shopId } = await shopService.getShopInfo(admin);
   const res = await prisma.shopRewardRules.update({
     where: {
-      shopName_shopId_ruleType: {
+      shopId_ruleType: {
         shopId,
-        shopName,
         ruleType,
       },
     },
@@ -110,12 +107,11 @@ async function deleteRewardRuleByShopId(
   admin: AdminApiContextWithoutRest,
   ruleType: RuleType,
 ) {
-  const { shopId, shopName } = await shopService.getShopInfo(admin);
+  const { shopId } = await shopService.getShopInfo(admin);
   const res = await prisma.shopRewardRules.delete({
     where: {
-      shopName_shopId_ruleType: {
+      shopId_ruleType: {
         shopId,
-        shopName,
         ruleType,
       },
     },

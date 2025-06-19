@@ -93,7 +93,7 @@ model ShopRewardRules {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@unique([shopName, shopId, ruleType])
+  @@unique([shopId, ruleType])
 }
 
 model CustomerRewards {
@@ -106,7 +106,7 @@ model CustomerRewards {
   availablePoints Int      @default(0) @map("available_points")
   createdAt       DateTime @default(now()) @map("created_at")
 
-  @@unique([customerId, shopName, shopId])
+  @@unique([customerId, shopId])
 }
 
 enum TransactioType {

@@ -13,9 +13,8 @@ async function grantNewUserSignUpReward({
 
   const rule = await prisma.shopRewardRules.findUnique({
     where: {
-      shopName_shopId_ruleType: {
+      shopId_ruleType: {
         shopId,
-        shopName,
         ruleType: "NEW_CUSTOMER",
       },
     },
@@ -67,9 +66,8 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
 
   const rule = await prisma.shopRewardRules.findUnique({
     where: {
-      shopName_shopId_ruleType: {
+      shopId_ruleType: {
         shopId: data.shopId,
-        shopName: data.shopName,
         ruleType: "STORE_VISIT",
       },
     },
@@ -87,20 +85,18 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
 
   const customerFound = await prisma.customerRewards.findUnique({
     where: {
-      customerId_shopName_shopId: {
+      customerId_shopId: {
         customerId: data.customerId as string,
         shopId: data.shopId,
-        shopName: data.shopName,
       },
     },
   });
   if (customerFound) {
     await prisma.customerRewards.update({
       where: {
-        customerId_shopName_shopId: {
+        customerId_shopId: {
           customerId: data.customerId as string,
           shopId: data.shopId,
-          shopName: data.shopName,
         },
       },
       data: {
