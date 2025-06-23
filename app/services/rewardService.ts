@@ -37,6 +37,14 @@ async function grantNewUserSignUpReward({
       availablePoints: rule.rewardPoints,
     },
   });
+  await prisma.pointsTransactionHistory.create({
+    data: {
+      customerId,
+      shopId,
+      ruleType: "NEW_CUSTOMER",
+      totalTransactedPoints: rule.rewardPoints,
+    },
+  });
 }
 
 export interface PageVisitData {

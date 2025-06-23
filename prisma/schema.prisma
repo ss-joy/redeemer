@@ -114,13 +114,14 @@ enum TransactioType {
   USED
 }
 
-model PointsTransaction {
-  id                     String         @id @default(cuid())
-  customerId             String         @map("customer_id")
-  shopName               String         @map("shop_name")
-  shopId                 String         @map("shop_id")
-  totalTransaactedPoints Int            @default(0) @map("total_transacted_points")
-  transactionType        TransactioType @map("transaction_type")
-  transactionReason      RuleType       @map("transaction_reason")
-  createdAt              DateTime       @default(now()) @map("created_at")
+model PointsTransactionHistory {
+  id                    String   @id @default(cuid())
+  customerId            String   @map("customer_id")
+  shopId                String   @map("shop_id")
+  totalTransactedPoints Int      @default(0) @map("total_transacted_points")
+  ruleType              RuleType @map("rule_type") //which rule type this transaction is related to
+  createdAt             DateTime @default(now()) @map("created_at")
 }
+
+// cu math
+// kisogonj guchhi cse
