@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { backendUrl } from "../util";
+import { backendUrl } from "../util/index.util";
 
 type ApiRes = {
   data: {
@@ -24,7 +24,7 @@ const EarningWays = ({ shopId }: { shopId: string | undefined }) => {
       return;
     }
     axios
-      .get<ApiRes>(`${backendUrl}/app/api/widget-info?shopId=${shopId}`)
+      .get<ApiRes>(`${backendUrl}/app/api/rule?shopId=${shopId}`)
       .then((res) => setWays(res.data.data.earingWay));
   }, [shopId]);
 

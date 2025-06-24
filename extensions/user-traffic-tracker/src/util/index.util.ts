@@ -47,4 +47,4 @@ export function getSessionFromStorage(): string {
 }
 
 export const backendUrl =
-  "https://second-landscapes-bloggers-hung.trycloudflare.com";
+  "https://history-struck-tomorrow-fighter.trycloudflare.com";

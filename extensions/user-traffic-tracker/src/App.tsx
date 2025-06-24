@@ -5,7 +5,7 @@ import {
   detectPageType,
   getSessionFromStorage,
   getDeviceType,
-} from "./util";
+} from "./util/index.util";
 
 import EarningWays from "./components/EarningWays";
 import RedeemWays from "./components/RedeemWays";
@@ -59,11 +59,11 @@ function App() {
     }
     axios
       .get<PointsResponse>(
-        `${backendUrl}/app/api/reward/customer/?customerId=${trackingData.customerId}&shopId=${trackingData.shopId}`,
+        `${backendUrl}/app/api/rewards/?actionType=getCustomerAvailablePoints&customerId=${trackingData.customerId}&shopId=${trackingData.shopId}`,
       )
       .then((res) => {
         console.log(res);
-        setCustomerRewardData(res.data.data.availablePoints);
+        setCustomerRewardData(res?.data?.data?.availablePoints);
       });
   }, [trackingData.customerId, trackingData.shopId]);
 

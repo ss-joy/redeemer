@@ -9,23 +9,28 @@ export async function loader({ request }: LoaderFunctionArgs) {
   try {
     const url = new URL(request.url);
     const searchParams = url.searchParams;
+
+    const actionType = searchParams.get("actionType");
+
     const shopId = searchParams.get("shopId");
     const customerId = searchParams.get("customerId");
 
-    if (!shopId || !customerId) {
-      return SuccessResponseWithCors({
-        request,
-      });
+    switch (actionType) {
+      case "getCustomerAvailablePoints":
+        if (!shopId || !customerId) {
+          return SuccessResponseWithCors({
+            request,
+          });
+        }
+        const data = await prisma.customerRewards.findFirst({
+          where: {
+            customerId: customerId as string,
+            shopId,
+          },
+        });
+        return SuccessResponseWithCors({ request, data: data });
+        break;
     }
-
-    const data = await prisma.customerRewards.findFirst({
-      where: {
-        customerId: customerId as string,
-        shopId,
-      },
-    });
-
-    return SuccessResponseWithCors({ request, data: data });
   } catch (error) {
     return ErrorResponseWithCors({ request, error });
   }
