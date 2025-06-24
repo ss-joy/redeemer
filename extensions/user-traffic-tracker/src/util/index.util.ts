@@ -47,4 +47,4 @@ export function getSessionFromStorage(): string {
 }
 
 export const backendUrl =
-  "https://history-struck-tomorrow-fighter.trycloudflare.com";
+  "https://quarterly-olive-zip-encountered.trycloudflare.com";

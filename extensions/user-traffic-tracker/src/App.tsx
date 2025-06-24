@@ -8,7 +8,7 @@ import {
 } from "./util/index.util";
 
 import EarningWays from "./components/EarningWays";
-import RedeemWays from "./components/RedeemWays";
+import Redeem from "./components/Redeem";
 import { AnimatePresence, motion } from "motion/react";
 
 interface TrackingData {
@@ -52,7 +52,6 @@ function App() {
   const hasTrackedVisit = useRef<boolean>(false);
   const [customerRewardData, setCustomerRewardData] =
     useState<PointsResponse["data"]["availablePoints"]>(0);
-
   useEffect(() => {
     if (!trackingData.customerId) {
       return;
@@ -88,7 +87,10 @@ function App() {
           divElement?.dataset.customerId === ""
             ? undefined
             : divElement?.dataset.customerId,
-        shopName: divElement?.dataset.shopName,
+        shopName:
+          divElement?.dataset.shopName === ""
+            ? undefined
+            : divElement?.dataset.shopName,
         collectionId:
           divElement?.dataset.collectionId === ""
             ? undefined
@@ -386,7 +388,13 @@ function App() {
               {infoPageType === "ways-to-earn" ? (
                 <EarningWays shopId={trackingData.shopId} />
               ) : null}
-              {infoPageType === "ways-to-redeem" ? <RedeemWays /> : null}
+              {infoPageType === "ways-to-redeem" ? (
+                <Redeem
+                  customerId={trackingData.customerId}
+                  shopId={trackingData.shopId}
+                  shopName={trackingData.shopName}
+                />
+              ) : null}
             </motion.section>
           )}
         </AnimatePresence>

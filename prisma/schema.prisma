@@ -123,5 +123,13 @@ model PointsTransactionHistory {
   createdAt             DateTime @default(now()) @map("created_at")
 }
 
-// cu math
-// kisogonj guchhi cse
+model Coupons {
+  id         String   @id @default(cuid())
+  shopId     String   @map("shop_id")
+  couponCode String   @unique @map("coupon_code")
+  couponId   String   @unique @map("coupon_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([shopId])
+}
