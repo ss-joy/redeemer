@@ -47,3 +47,14 @@ export function getSessionFromStorage(): string {
 }
 
 export const backendUrl = "https://lemming-sound-moth.ngrok-free.app";
+
+// Create axios instance with ngrok headers
+import axios from "axios";
+
+export const apiClient = axios.create({
+  baseURL: backendUrl,
+  headers: {
+    "ngrok-skip-browser-warning": "true",
+    "Content-Type": "application/json",
+  },
+});
