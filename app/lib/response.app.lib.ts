@@ -38,6 +38,11 @@ export async function SuccessResponseWithCors({
         message: message,
         data: data,
       }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
     ),
     {
       origin: origin,
@@ -53,7 +58,11 @@ export async function ErrorResponseWithCors({
 }: TReturnErrorResponseWithCors): Promise<Response> {
   return await cors(
     request,
-    new Response(JSON.stringify(handleErrors(error, message))),
+    new Response(JSON.stringify(handleErrors(error, message)), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }),
     {
       origin: origin,
     },
