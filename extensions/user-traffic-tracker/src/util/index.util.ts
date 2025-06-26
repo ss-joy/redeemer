@@ -46,5 +46,4 @@ export function getSessionFromStorage(): string {
   return sessionId;
 }
 
-export const backendUrl =
-  "https://quarterly-olive-zip-encountered.trycloudflare.com";
+export const backendUrl = "https://lemming-sound-moth.ngrok-free.app";
