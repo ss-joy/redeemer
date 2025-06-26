@@ -100,10 +100,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 const EarnRewardsPage = () => {
   const loaderData = useLoaderData<typeof loader>();
-  const parsedLoaderData = JSON.parse(loaderData);
+
   const {
     data: { shopRules },
-  } = parsedLoaderData;
+  } = loaderData;
 
   const navigate = useNavigate();
   const submit = useSubmit();

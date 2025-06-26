@@ -116,10 +116,10 @@ const RewardEarnRulesPage = () => {
   const submit = useSubmit();
 
   const loaderData = useLoaderData<typeof loader>();
-  const parsedLoaderData = JSON.parse(loaderData);
+
   const {
     data: { shopRules },
-  } = parsedLoaderData;
+  } = loaderData;
 
   const handleTabChange = useCallback((selectedTabIndex: number) => {
     setSelectedTab(selectedTabIndex);
