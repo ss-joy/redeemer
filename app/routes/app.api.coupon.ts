@@ -3,8 +3,8 @@ import {
   ErrorResponseWithCors,
   SuccessResponseWithCors,
 } from "app/lib/response.app.lib";
-import shopService from "app/services/shop.service";
 import couponService from "app/services/couponService";
+import { authenticate } from "app/shopify.server";
 
 export async function loader({ request }: ActionFunctionArgs) {
   return SuccessResponseWithCors({
@@ -16,19 +16,25 @@ export async function loader({ request }: ActionFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+  const { session } = await authenticate.public.appProxy(request);
+  if (!session) {
+    throw new Error(
+      "Session not found. Request is not coming from shopify storefront.",
+    );
+  }
   const body = await request.json();
-  const { actionType, shopId, customerId, shopName } = body;
-  console.log({ actionType, shopId, customerId, shopName });
-  const accessToken = await shopService.getShopAccessTokenBySHopName(shopName);
+  const { actionType, shopId, shopName } = body;
 
   try {
     switch (actionType) {
       case "createCoupon":
-        if (!accessToken || !shopId || !shopName) {
-          throw new Error("Access token not found for the shop");
+        if (!session.accessToken || !shopId || !shopName) {
+          throw new Error(
+            "Access token/shopId/shopName not found for the shop",
+          );
         }
         const { code } = await couponService.createCoupon({
-          accessToken,
+          accessToken: session.accessToken,
           shopId,
           shopName,
         });

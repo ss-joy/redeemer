@@ -1,4 +1,3 @@
-import prisma from "app/db.server";
 import { parseIntIdFromGraphQlId } from "app/lib";
 import type { AdminApiContextWithoutRest } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 
@@ -23,18 +22,5 @@ async function getShopInfo(admin: TAdmin): Promise<ShopInfo> {
   };
 }
 
-async function getShopAccessTokenBySHopName(
-  shopName: string,
-): Promise<string | null> {
-  const data = await prisma.session.findFirst({
-    where: {
-      shop: `${shopName}.myshopify.com`,
-    },
-    select: { accessToken: true },
-  });
-
-  return data?.accessToken || null;
-}
-
-const shopService = { getShopInfo, getShopAccessTokenBySHopName };
+const shopService = { getShopInfo };
 export default shopService;
