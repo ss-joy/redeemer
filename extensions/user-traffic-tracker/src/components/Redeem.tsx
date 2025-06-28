@@ -1,5 +1,4 @@
-import axios from "axios";
-import { backendUrl } from "../util/index.util";
+import { apiClient } from "../util/index.util";
 
 const Redeem = ({
   shopId,
@@ -15,7 +14,7 @@ const Redeem = ({
       console.error("Shop ID or Customer ID is missing");
       return;
     }
-    const data = await axios.post(`${backendUrl}/app/api/coupon`, {
+    const data = await apiClient.post(`/app/api/coupon`, {
       shopId,
       customerId,
       actionType: "createCoupon",
@@ -26,7 +25,7 @@ const Redeem = ({
   return (
     <div className="tw-space-y-3 tw-mb-6 ">
       <button
-        className="tw-p-2 tw-bg-white tw-rounded-lg tw-text-blue-500 tw-text-center"
+        className="hover:tw-cursor-pointer tw-p-2 tw-border-0 tw-text-sky-500 tw-text-2xl tw-font-bold tw-rounded-lg tw-bg-white"
         onClick={() => generateCouponCode()}
       >
         Redeem

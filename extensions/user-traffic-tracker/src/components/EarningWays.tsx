@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { backendUrl } from "../util/index.util";
+import { apiClient } from "../util/index.util";
+import { motion, type Variants } from "motion/react";
 
 type ApiRes = {
   data: {
@@ -23,16 +23,45 @@ const EarningWays = ({ shopId }: { shopId: string | undefined }) => {
       console.log("shopName or shopId is undefined");
       return;
     }
-    axios
-      .get<ApiRes>(`${backendUrl}/app/api/rule?shopId=${shopId}`)
+    apiClient
+      .get<ApiRes>(`/app/api/rule?shopId=${shopId}`)
       .then((res) => setWays(res.data.data.earingWay));
   }, [shopId]);
 
+  const parentVariants: Variants = {
+    initial: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const childVariants: Variants = {
+    initial: {
+      scaleY: 0,
+      opacity: 0,
+    },
+    visible: {
+      scaleY: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
   return (
-    <div className="tw-space-y-1 tw-my-6 ">
+    <motion.div
+      variants={parentVariants}
+      initial="initial"
+      animate="visible"
+      className="tw-space-y-1 tw-my-6 "
+    >
       {ways.map((way, id) => {
         return (
-          <div
+          <motion.div
+            variants={childVariants}
             key={id}
             className="tw-flex tw-gap-2 tw-items-center tw-p-2 tw-bg-white tw-rounded-lg tw-text-slate-500 tw-text "
           >
@@ -53,10 +82,10 @@ const EarningWays = ({ shopId }: { shopId: string | undefined }) => {
               <path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z" />
             </svg>
             {way.description}
-          </div>
+          </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 

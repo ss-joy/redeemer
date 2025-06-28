@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "build": "remix vite:build",
-    "tunnel:dev":"ngrok http --url=lemming-sound-moth.ngrok-free.app 3000",
-    "dev": "shopify app dev --tunnel-url=https://lemming-sound-moth.ngrok-free.app:3000",
+    "dev": "shopify app dev",
     "config:link": "shopify app config link",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
@@ -20,7 +19,7 @@
     "vite": "vite",
     "db:migrate-dev": "prisma migrate dev",
     "db:generate": "prisma migrate generate",
-    "user-traffic-tracker:dev:build": "pnpm -F @redeemer/user-traffic-tracker run dev:build"
+    "user-traffic-tracker:build:watch": "pnpm -F @redeemer/user-traffic-tracker run build:watch"
   },
   "type": "module",
   "engines": {

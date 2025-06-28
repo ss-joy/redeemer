@@ -46,9 +46,8 @@ export function getSessionFromStorage(): string {
   return sessionId;
 }
 
-export const backendUrl = "https://lemming-sound-moth.ngrok-free.app";
+export const backendUrl = "/apps/my-proxy";
 
-// Create axios instance with ngrok headers
 import axios from "axios";
 
 export const apiClient = axios.create({
