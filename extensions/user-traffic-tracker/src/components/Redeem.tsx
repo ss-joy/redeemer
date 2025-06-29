@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiClient } from "../util/index.util";
 import { Toaster, toast } from "sonner";
+import axios from "axios";
 
 const Redeem = ({
   shopId,
@@ -48,6 +49,17 @@ const Redeem = ({
     }
   }
 
+  async function autoApplyCouponCode(couponCode: string) {
+    const res = await axios.get(`/discount/${couponCode}`, {
+      withCredentials: true,
+    });
+    if (res.status === 302) {
+      toast("Coupon code applied successfully!", {
+        description: `Applied coupon code: ${couponCode}`,
+      });
+    }
+  }
+
   useEffect(() => {
     if (!customerId || !shopId || !shopName) {
       console.error("Customer ID, Shop ID, or Shop Name is missing");
@@ -79,7 +91,6 @@ const Redeem = ({
     }
     getCouponCdes();
   }, [customerId, shopId, shopName]);
-
   return (
     <div className="tw-space-y-3 tw-mb-6 tw-rounded-lg">
       <Toaster
@@ -91,19 +102,27 @@ const Redeem = ({
       />
       <section>
         {!isLoading ? (
-          <ul className="tw-list-none tw-m-0 tw-p-0 tw-border tw-rounded-lg tw-shadow-md tw-h-[300px] tw-overflow-y-scroll">
+          <ul className="tw-list-none tw-m-0 tw-p-0 tw-border tw-rounded-lg tw-shadow-md tw-max-h-[300px] tw-overflow-y-scroll">
             {coupons.map((c) => (
               <li
                 key={c.couponId}
-                className="tw-text-sky tw-flex tw-justify-between tw-p-3 tw-bg-white"
+                className="tw-text-sky tw-flex tw-flex-col tw-items-start tw-gap-3 tw-p-3 tw-bg-white"
               >
                 <span className="tw-text-sky-500">{c.couponCode}</span>
-                <button
-                  onClick={() => copyCouponCode(c.couponCode)}
-                  className="tw-p-3 tw-rounded-md tw-border-0 tw-bg-blue-500 tw-text-white tw-font-bold"
-                >
-                  Copy Code
-                </button>
+                <section className="tw-flex tw-w-full tw-justify-between tw-items-center">
+                  <button
+                    onClick={() => copyCouponCode(c.couponCode)}
+                    className="hover:tw-cursor-pointer tw-p-3 tw-rounded-md tw-border-0 tw-bg-blue-500 tw-text-white tw-font-bold"
+                  >
+                    Copy Code
+                  </button>
+                  <button
+                    onClick={() => autoApplyCouponCode(c.couponCode)}
+                    className="hover:tw-cursor-pointer tw-p-3 tw-rounded-md tw-border-0 tw-bg-lime-500 tw-text-white tw-font-bold"
+                  >
+                    Apply Code
+                  </button>
+                </section>
               </li>
             ))}
           </ul>
