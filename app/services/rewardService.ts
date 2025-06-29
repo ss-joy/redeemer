@@ -111,6 +111,14 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
         availablePoints: customerFound.availablePoints + rule.rewardPoints,
       },
     });
+    await prisma.pointsTransactionHistory.create({
+      data: {
+        customerId: data.customerId as string,
+        shopId: data.shopId,
+        ruleType: "STORE_VISIT",
+        totalTransactedPoints: rule.rewardPoints,
+      },
+    });
   } else if (!customerFound) {
     await prisma.customerRewards.create({
       data: {
@@ -118,6 +126,14 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
         shopName: data.shopName,
         shopId: data.shopId,
         availablePoints: rule.rewardPoints,
+      },
+    });
+    await prisma.pointsTransactionHistory.create({
+      data: {
+        customerId: data.customerId as string,
+        shopId: data.shopId,
+        ruleType: "STORE_VISIT",
+        totalTransactedPoints: rule.rewardPoints,
       },
     });
   }

@@ -19,4 +19,5 @@ export type TReturnErrorResponseWithCors = {
   origin?: string;
   error: unknown;
   message?: string;
+  status?: number;
 };

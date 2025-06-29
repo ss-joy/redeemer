@@ -13,6 +13,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const actionType = searchParams.get("actionType");
 
     const shopId = searchParams.get("shopId");
+    const shopName = searchParams.get("shopName");
     const customerId = searchParams.get("customerId");
 
     switch (actionType) {
@@ -29,6 +30,29 @@ export async function loader({ request }: LoaderFunctionArgs) {
           },
         });
         return SuccessResponseWithCors({ request, data: data });
+        break;
+
+      case "getRewardHistoryByCustomerAndShopId":
+        if (!shopId || !customerId || !shopName) {
+          return ErrorResponseWithCors({
+            request,
+            error: new Error(
+              "Shop ID or Customer ID is missing in the request",
+            ),
+            status: 400,
+          });
+        }
+        const history = await prisma.pointsTransactionHistory.findMany({
+          where: {
+            customerId,
+            shopId,
+          },
+        });
+        return SuccessResponseWithCors({
+          request,
+          data: { history },
+        });
+
         break;
     }
   } catch (error) {

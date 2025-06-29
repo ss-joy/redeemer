@@ -109,11 +109,6 @@ model CustomerRewards {
   @@unique([customerId, shopId])
 }
 
-enum TransactioType {
-  EARNED
-  USED
-}
-
 model PointsTransactionHistory {
   id                    String   @id @default(cuid())
   customerId            String   @map("customer_id")
@@ -130,6 +125,7 @@ model Coupons {
   couponId   String   @unique @map("coupon_id")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
+  customerId String   @map("customer_id")
 
   @@index([shopId])
 }

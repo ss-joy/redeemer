@@ -9,10 +9,12 @@ async function createCoupon({
   accessToken,
   shopId,
   shopName,
+  customerId,
 }: {
   accessToken: string;
   shopId: string;
   shopName: string;
+  customerId: string;
 }) {
   const res = await axios.post<TcreateCouponCode>(
     `https://${shopName}.myshopify.com/admin/api/${shopifyApiVersion}/graphql.json`,
@@ -33,6 +35,7 @@ async function createCoupon({
       couponCode: codeDiscount.codes.edges[0].node.code,
       shopId,
       couponId: parseIntIdFromGraphQlId(id),
+      customerId,
     },
   });
   return {
@@ -40,8 +43,31 @@ async function createCoupon({
   };
 }
 
+async function getCouponsByCustomerAndShopId({
+  shopId,
+  customerId,
+}: {
+  shopId: string;
+  customerId: string;
+}) {
+  const coupons = await prisma.coupons.findMany({
+    where: {
+      shopId,
+      customerId,
+    },
+    select: {
+      couponCode: true,
+      couponId: true,
+      createdAt: true,
+    },
+  });
+
+  return coupons;
+}
+
 const couponService = {
   createCoupon,
+  getCouponsByCustomerAndShopId,
 };
 
 export default couponService;

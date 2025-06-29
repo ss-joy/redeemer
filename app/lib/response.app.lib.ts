@@ -54,6 +54,7 @@ export async function ErrorResponseWithCors({
   error,
   message = "Something went wrong",
   origin = "*",
+  status = 500,
   request,
 }: TReturnErrorResponseWithCors): Promise<Response> {
   return await cors(
@@ -62,6 +63,7 @@ export async function ErrorResponseWithCors({
       headers: {
         "Content-Type": "application/json",
       },
+      status,
     }),
     {
       origin: origin,

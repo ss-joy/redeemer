@@ -19,6 +19,7 @@ import RightChevron from "./icons/RightChevron";
 import DiamondIcon from "./icons/DiamondIcon";
 import CareIcon from "./icons/CareIcon";
 import useShop from "./hooks/useShop";
+import ViewHistory from "./components/ViewHistory";
 
 type PointsResponse = {
   message: string;
@@ -41,7 +42,7 @@ function App() {
 
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   const [infoPageType, setInfoPageType] = useState<
-    "" | "ways-to-earn" | "ways-to-redeem"
+    "" | "ways-to-earn" | "ways-to-redeem" | "view-history"
   >("");
 
   const pageStartTime = useRef<Date>(new Date());
@@ -61,7 +62,6 @@ function App() {
         `/app/api/rewards/?actionType=getCustomerAvailablePoints&customerId=${customerId}&shopId=${shopId}`,
       )
       .then((res) => {
-        console.log(res);
         setCustomerRewardData(res?.data?.data?.availablePoints);
       });
   }, [customerId, shopId]);
@@ -187,7 +187,10 @@ function App() {
                 <CrossIcon onClick={() => setInfoOpen(false)} />
               </div>
 
-              <Welcome customerRewardData={customerRewardData} />
+              <Welcome
+                customerRewardData={customerRewardData}
+                customerId={customerId as string}
+              />
 
               {infoPageType === "" ? (
                 <div>
@@ -211,7 +214,20 @@ function App() {
                     >
                       <div className="tw-flex tw-items-center tw-gap-3">
                         <DiamondIcon />
-                        <span className="tw-text-xl ">Ways to redeem</span>
+                        <span className="tw-text-xl ">Redeem</span>
+                      </div>
+                      <RightChevron />
+                    </button>
+
+                    <button
+                      onClick={() => setInfoPageType("view-history")}
+                      className="hover:tw-cursor-pointer tw-w-full tw-bg-white tw-text-blue-400 tw-rounded-lg tw-p-4 tw-flex tw-items-center tw-justify-between tw-border-0"
+                    >
+                      <div className="tw-flex tw-items-center tw-gap-3">
+                        <DiamondIcon />
+                        <span className="tw-text-xl ">
+                          View Transaction History
+                        </span>
                       </div>
                       <RightChevron />
                     </button>
@@ -226,10 +242,21 @@ function App() {
               ) : null}
 
               {infoPageType === "ways-to-earn" ? (
-                <EarningWays shopId={shopId} />
+                <EarningWays
+                  shopId={shopId}
+                  customerId={customerId as string}
+                />
               ) : null}
               {infoPageType === "ways-to-redeem" ? (
                 <Redeem
+                  customerId={customerId}
+                  shopId={shopId}
+                  shopName={shopName}
+                />
+              ) : null}
+
+              {infoPageType === "view-history" ? (
+                <ViewHistory
                   customerId={customerId}
                   shopId={shopId}
                   shopName={shopName}
@@ -239,6 +266,8 @@ function App() {
           )}
         </AnimatePresence>
         <FloatingButton
+          customerId={customerId as string}
+          customerRewardData={customerRewardData}
           infoOpen={infoOpen}
           onClick={() => setInfoOpen((prev) => !prev)}
         />
