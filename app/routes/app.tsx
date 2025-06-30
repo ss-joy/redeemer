@@ -30,6 +30,9 @@ export default function App() {
         <Link to="/app/redeem-points" rel="Redeem points">
           Redeem Points
         </Link>
+        <Link to="/app/gen" rel="Redeem hjhjhh points">
+          gen
+        </Link>
       </NavMenu>
       <Outlet />
     </AppProvider>

@@ -3,7 +3,7 @@
 client_id = "96b0459626063b1c4f0686b444f76bd9"
 name = "redeemer"
 handle = "redeemer-1"
-application_url = "https://liked-jump-journals-sas.trycloudflare.com"
+application_url = "https://continuity-organisations-lu-richardson.trycloudflare.com"
 embedded = true
 
 [build]
@@ -31,15 +31,15 @@ scopes = "read_customers,read_orders,write_discounts,write_orders,write_products
 
 [auth]
 redirect_urls = [
-  "https://liked-jump-journals-sas.trycloudflare.com/auth/callback",
-  "https://liked-jump-journals-sas.trycloudflare.com/auth/shopify/callback",
-  "https://liked-jump-journals-sas.trycloudflare.com/api/auth/callback"
+  "https://continuity-organisations-lu-richardson.trycloudflare.com/auth/callback",
+  "https://continuity-organisations-lu-richardson.trycloudflare.com/auth/shopify/callback",
+  "https://continuity-organisations-lu-richardson.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
 embedded = false
 
 [app_proxy]
-url = "https://liked-jump-journals-sas.trycloudflare.com"
+url = "https://continuity-organisations-lu-richardson.trycloudflare.com"
 subpath = "my-proxy"
 prefix = "apps"

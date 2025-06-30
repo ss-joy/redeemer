@@ -1,7 +1,5 @@
-// import React from "react";
+import { Outlet } from "@remix-run/react";
 
-const RedeemPointsPage = () => {
-  return <div>RedeemPointsPage</div>;
-};
-
-export default RedeemPointsPage;
+export default function RedeemPointsLayout() {
+  return <Outlet />;
+}

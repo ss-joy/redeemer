@@ -138,3 +138,26 @@ model Coupons {
 
   @@index([shopId])
 }
+
+enum RedemptionRuleType {
+  ORDER_DISCOUNT
+}
+
+model ShopRedemptionRules {
+  id       String             @id @default(cuid())
+  shopName String             @map("shop_name")
+  shopId   String             @map("shop_id")
+  ruleType RedemptionRuleType @map("rule_type")
+  ruleName String             @map("rule_name")
+
+  pointsRequiredForRedemption Int @map("points_required_for_redemption")
+  discountPercentage          Int @map("discount_percentage")
+
+  isActive Boolean @default(false) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([shopId, ruleType])
+  @@map("shop_redemption_rules")
+}
