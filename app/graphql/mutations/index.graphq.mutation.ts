@@ -1,6 +1,11 @@
 import { generateCouponCode } from "app/lib/coupon.lib";
 
-export function createCoupleCodeMutation() {
+export function createCoupleCodeMutation({
+  percentageDiscount,
+}: {
+  percentageDiscount: number;
+}) {
+  const decimalDiscount = percentageDiscount / 100;
   return `
 
             mutation {
@@ -11,7 +16,7 @@ export function createCoupleCodeMutation() {
                   startsAt: "${new Date().toISOString()}"
                   endsAt: "2028-12-31T23:59:59Z"
                   customerGets: {
-                    value: { percentage: 0.10 }
+                    value: { percentage: ${decimalDiscount} }
                     items: { all: true }
                   }
                   customerSelection: { all: true }

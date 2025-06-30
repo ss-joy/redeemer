@@ -6,7 +6,7 @@ const earnRulesWithoutHasRule = [
   {
     id: "purchase",
     title: "Purchase",
-    ruleType: "PURCHASE",
+    ruleType: "PRODUCT_PURCHASE",
     description:
       "Customers receive points or store credits when they purchase a product.",
 

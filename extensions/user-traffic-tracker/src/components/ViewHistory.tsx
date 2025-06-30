@@ -14,9 +14,10 @@ const ViewHistory = ({
       customerId: string;
       shopId: string;
       id: string;
-      ruleType: "STORE_VISIT" | "NEW_CUSTOMER";
+      ruleType: "STORE_VISIT" | "NEW_CUSTOMER" | "PRODUCT_PURCHASE";
       createdAt: Date;
       totalTransactedPoints: number;
+      transactionType: "EARN" | "REDEEM";
     }[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,6 +40,7 @@ const ViewHistory = ({
         });
 
         if (res.data) {
+          console.log(res.data);
           setHistory(res.data.data.history);
           setIsLoading(false);
         } else {
@@ -64,8 +66,11 @@ const ViewHistory = ({
                 className="tw-text-sky tw-flex tw-justify-between tw-p-3 tw-bg-white"
               >
                 <span className="tw-text-sky-500">{c.ruleType}</span>:
-                <span className="tw-text-sky-500">
-                  {c.totalTransactedPoints} points received
+                <span
+                  className={`${c.transactionType === "EARN" ? "tw-text-green-500" : "tw-text-red-500"} tw-font-semibold`}
+                >
+                  {c.transactionType === "EARN" ? <>+</> : <>-</>}
+                  {c.totalTransactedPoints} points
                 </span>
               </li>
             ))}
