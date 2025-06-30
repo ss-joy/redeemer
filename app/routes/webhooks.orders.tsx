@@ -2,6 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
 import { SuccessResponseWithCors } from "app/lib/response.app.lib";
 import rewardService from "app/services/rewardService";
+import couponService from "app/services/couponService";
 
 export async function action({ request }: ActionFunctionArgs) {
   try {
@@ -15,6 +16,15 @@ export async function action({ request }: ActionFunctionArgs) {
     switch (topic) {
       case "ORDERS_CREATE":
         await rewardService.grantPurchaseReward({ admin, payload });
+
+        const couponCode = payload.discount_codes[0].code;
+        if (couponCode) {
+          await couponService.deleteUsedCoupon({
+            couponCode: payload.discount_codes[0].code,
+            customerId: payload.customer.id,
+            admin,
+          });
+        }
         return SuccessResponseWithCors({ request });
         break;
 

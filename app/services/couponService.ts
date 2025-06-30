@@ -4,6 +4,8 @@ import { parseIntIdFromGraphQlId } from "app/lib";
 import { shopifyApiVersion } from "app/lib/config.lib";
 import type { TcreateCouponCode } from "app/types/discount.types";
 import axios from "axios";
+import type { AdminApiContextWithoutRest } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
+import shopService from "./shop.service";
 
 async function createCoupon({
   accessToken,
@@ -125,9 +127,30 @@ async function getCouponsByCustomerAndShopId({
   return coupons;
 }
 
+async function deleteUsedCoupon({
+  couponCode,
+  customerId,
+  admin,
+}: {
+  couponCode: string;
+  customerId: string;
+  admin: AdminApiContextWithoutRest;
+}) {
+  const { shopId } = await shopService.getShopInfo(admin);
+
+  await prisma.coupons.delete({
+    where: {
+      couponCode,
+      customerId: String(customerId),
+      shopId,
+    },
+  });
+}
+
 const couponService = {
   createCoupon,
   getCouponsByCustomerAndShopId,
+  deleteUsedCoupon,
 };
 
 export default couponService;
