@@ -29,7 +29,7 @@ async function grantNewUserSignUpReward({
     return;
   }
 
-  await prisma.customerRewards.create({
+  await prisma.rewardedCustomrList.create({
     data: {
       customerId,
       shopId,
@@ -37,12 +37,25 @@ async function grantNewUserSignUpReward({
       availablePoints: rule.rewardPoints,
     },
   });
-  await prisma.pointsTransactionHistory.create({
+  await prisma.rewardPointsTransactionHistory.create({
     data: {
       customerId,
       shopId,
       ruleType: "NEW_CUSTOMER",
       totalTransactedPoints: rule.rewardPoints,
+      transactionType: "EARN",
+    },
+  });
+  await prisma.shopRewardRules.update({
+    where: {
+      shopId_ruleType: {
+        shopId,
+        ruleType: "NEW_CUSTOMER",
+      },
+    },
+    data: {
+      totalAwaredCount: rule.totalAwaredCount + 1,
+      totalAwardedPoints: rule.totalAwardedPoints + rule.rewardPoints,
     },
   });
 }
@@ -91,7 +104,7 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
     return;
   }
 
-  const customerFound = await prisma.customerRewards.findUnique({
+  const customerFound = await prisma.rewardedCustomrList.findUnique({
     where: {
       customerId_shopId: {
         customerId: data.customerId as string,
@@ -100,7 +113,7 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
     },
   });
   if (customerFound) {
-    await prisma.customerRewards.update({
+    await prisma.rewardedCustomrList.update({
       where: {
         customerId_shopId: {
           customerId: data.customerId as string,
@@ -111,16 +124,29 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
         availablePoints: customerFound.availablePoints + rule.rewardPoints,
       },
     });
-    await prisma.pointsTransactionHistory.create({
+    await prisma.rewardPointsTransactionHistory.create({
       data: {
         customerId: data.customerId as string,
         shopId: data.shopId,
         ruleType: "STORE_VISIT",
         totalTransactedPoints: rule.rewardPoints,
+        transactionType: "EARN",
+      },
+    });
+    await prisma.shopRewardRules.update({
+      where: {
+        shopId_ruleType: {
+          shopId: data.shopId,
+          ruleType: "STORE_VISIT",
+        },
+      },
+      data: {
+        totalAwaredCount: rule.totalAwaredCount + 1,
+        totalAwardedPoints: rule.totalAwardedPoints + rule.rewardPoints,
       },
     });
   } else if (!customerFound) {
-    await prisma.customerRewards.create({
+    await prisma.rewardedCustomrList.create({
       data: {
         customerId: data.customerId as string,
         shopName: data.shopName,
@@ -128,12 +154,121 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
         availablePoints: rule.rewardPoints,
       },
     });
-    await prisma.pointsTransactionHistory.create({
+    await prisma.rewardPointsTransactionHistory.create({
       data: {
         customerId: data.customerId as string,
         shopId: data.shopId,
         ruleType: "STORE_VISIT",
         totalTransactedPoints: rule.rewardPoints,
+        transactionType: "EARN",
+      },
+    });
+    await prisma.shopRewardRules.update({
+      where: {
+        shopId_ruleType: {
+          shopId: data.shopId,
+          ruleType: "STORE_VISIT",
+        },
+      },
+      data: {
+        totalAwaredCount: rule.totalAwaredCount + 1,
+        totalAwardedPoints: rule.totalAwardedPoints + rule.rewardPoints,
+      },
+    });
+  }
+}
+
+async function grantPurchaseReward({
+  admin,
+  payload,
+}: {
+  admin: AdminApiContextWithoutRest;
+  payload: Record<string, any>;
+}) {
+  const { shopId } = await shopService.getShopInfo(admin);
+
+  const ruleFound = await prisma.shopRewardRules.findUnique({
+    where: {
+      shopId_ruleType: {
+        shopId,
+        ruleType: "PRODUCT_PURCHASE",
+      },
+    },
+  });
+
+  if (!ruleFound) return;
+  const customerExists = await prisma.rewardedCustomrList.findUnique({
+    where: {
+      customerId_shopId: {
+        customerId: String(payload.customer.id) as string,
+        shopId,
+      },
+    },
+  });
+  if (customerExists) {
+    await prisma.rewardedCustomrList.update({
+      where: {
+        customerId_shopId: {
+          customerId: String(payload.customer.id),
+          shopId,
+        },
+      },
+      data: {
+        availablePoints:
+          customerExists.availablePoints + ruleFound.rewardPoints,
+      },
+    });
+    await prisma.rewardPointsTransactionHistory.create({
+      data: {
+        customerId: String(payload.customer.id),
+        shopId,
+        totalTransactedPoints: ruleFound.rewardPoints,
+        ruleType: "PRODUCT_PURCHASE",
+        transactionType: "EARN",
+      },
+    });
+    await prisma.shopRewardRules.update({
+      where: {
+        shopId_ruleType: {
+          shopId,
+          ruleType: "PRODUCT_PURCHASE",
+        },
+      },
+      data: {
+        totalAwaredCount: ruleFound.totalAwaredCount + 1,
+        totalAwardedPoints:
+          ruleFound.totalAwardedPoints + ruleFound.rewardPoints,
+      },
+    });
+  } else {
+    await prisma.rewardedCustomrList.create({
+      data: {
+        customerId: String(payload.customer.id),
+        shopId,
+        shopName: payload.shop.name,
+        availablePoints: ruleFound.rewardPoints,
+      },
+    });
+    await prisma.rewardPointsTransactionHistory.create({
+      data: {
+        customerId: String(payload.customer.id) as string,
+        shopId,
+        totalTransactedPoints: ruleFound.rewardPoints,
+        ruleType: "PRODUCT_PURCHASE",
+        transactionType: "EARN",
+      },
+    });
+    await prisma.shopRewardRules.update({
+      where: {
+        shopId_ruleType: {
+          shopId,
+          ruleType: "PRODUCT_PURCHASE",
+        },
+      },
+      data: {
+        totalAwaredCount: ruleFound.totalAwaredCount + 1,
+        totalAwardedPoints:
+          ruleFound.totalAwardedPoints + ruleFound.rewardPoints,
       },
     });
   }
@@ -142,6 +277,7 @@ async function grantRewardsToStoreVisitingUsers(data: PageVisitData) {
 const rewardService = {
   grantNewUserSignUpReward,
   grantRewardsToStoreVisitingUsers,
+  grantPurchaseReward,
 };
 
 export default rewardService;

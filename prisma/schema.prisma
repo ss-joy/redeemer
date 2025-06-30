@@ -74,6 +74,7 @@ model UserPageVisits {
 enum RuleType {
   STORE_VISIT
   NEW_CUSTOMER
+  PRODUCT_PURCHASE
 }
 
 model ShopRewardRules {
@@ -96,7 +97,7 @@ model ShopRewardRules {
   @@unique([shopId, ruleType])
 }
 
-model CustomerRewards {
+model RewardedCustomrList {
   id         String @id @default(cuid())
   customerId String @map("customer_id")
   shopName   String @map("shop_name")
@@ -109,13 +110,21 @@ model CustomerRewards {
   @@unique([customerId, shopId])
 }
 
-model PointsTransactionHistory {
-  id                    String   @id @default(cuid())
-  customerId            String   @map("customer_id")
-  shopId                String   @map("shop_id")
-  totalTransactedPoints Int      @default(0) @map("total_transacted_points")
-  ruleType              RuleType @map("rule_type") //which rule type this transaction is related to
-  createdAt             DateTime @default(now()) @map("created_at")
+enum TransactionType {
+  EARN
+  REDEEM
+}
+
+model RewardPointsTransactionHistory {
+  id                    String          @id @default(cuid())
+  customerId            String          @map("customer_id")
+  shopId                String          @map("shop_id")
+  totalTransactedPoints Int             @default(0) @map("total_transacted_points")
+  ruleType              RuleType        @map("rule_type")
+  transactionType       TransactionType @map("transaction_type")
+  createdAt             DateTime        @default(now()) @map("created_at")
+
+  @@map("reward_points_transaction_history")
 }
 
 model Coupons {

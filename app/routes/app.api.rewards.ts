@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
             request,
           });
         }
-        const data = await prisma.customerRewards.findFirst({
+        const data = await prisma.rewardedCustomrList.findFirst({
           where: {
             customerId: customerId as string,
             shopId,
@@ -42,7 +42,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
             status: 400,
           });
         }
-        const history = await prisma.pointsTransactionHistory.findMany({
+        const history = await prisma.rewardPointsTransactionHistory.findMany({
           where: {
             customerId,
             shopId,

@@ -141,8 +141,7 @@ const RewardEarnRulesPage = () => {
   const handleCreateRule = useCallback((ruleType: string) => {
     // Map rule IDs to proper rule type values
     const ruleTypeMapping: { [key: string]: string } = {
-      purchase: "PURCHASE",
-      "purchase-subscription": "PURCHASE_SUBSCRIPTION",
+      purchase: "PRODUCT_PURCHASE",
       "new-customer": "NEW_CUSTOMER",
       "visit-store": "STORE_VISIT",
       birthday: "BIRTHDAY",
@@ -154,8 +153,7 @@ const RewardEarnRulesPage = () => {
 
     // Set default rule name based on the selected rule
     const ruleNames: { [key: string]: string } = {
-      PURCHASE: "Purchase Reward",
-      PURCHASE_SUBSCRIPTION: "Subscription Purchase Reward",
+      PRODUCT_PURCHASE: "Purchase Reward",
       NEW_CUSTOMER: "New Customer Welcome Reward",
       STORE_VISIT: "Store Visit Reward",
       BIRTHDAY: "Birthday Reward",
@@ -208,15 +206,9 @@ const RewardEarnRulesPage = () => {
 
   const ruleTypeOptions: {
     label: string;
-    value:
-      | RuleType
-      | "PURCHASE_SUBSCRIPTION"
-      | "PURCHASE"
-      | "BIRTHDAY"
-      | "BUY_SPECIFIC_PRODUCT";
+    value: RuleType | "BIRTHDAY" | "BUY_SPECIFIC_PRODUCT";
   }[] = [
-    { label: "Purchase", value: "PURCHASE" },
-    { label: "Purchase Subscription Product", value: "PURCHASE_SUBSCRIPTION" },
+    { label: "Purchase", value: "PRODUCT_PURCHASE" },
     { label: "New Customer", value: "NEW_CUSTOMER" },
     { label: "Visit Store", value: "STORE_VISIT" },
     { label: "Birthday", value: "BIRTHDAY" },
@@ -251,23 +243,14 @@ const RewardEarnRulesPage = () => {
       {
         id: "purchase",
         title: "Purchase",
-        ruleType: "PURCHASE",
+        ruleType: "PRODUCT_PURCHASE",
         description:
           "Customers receive points or store credits when they purchase a product.",
         icon: CreditCardIcon,
         learnMoreUrl: "#",
         category: "core",
       },
-      {
-        id: "purchase-subscription",
-        title: "Purchase Subscription Product / Recurring Orders",
-        ruleType: "PURCHASE_SUBSCRIPTION",
-        description:
-          "Customers receive points or store credits when they purchase a subscription product or when a recurring order is placed.",
-        icon: CreditCardIcon,
-        learnMoreUrl: "#",
-        category: "core",
-      },
+
       {
         id: "new-customer",
         title: "New Customer",

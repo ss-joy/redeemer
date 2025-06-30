@@ -30,6 +30,7 @@ export async function SuccessResponseWithCors({
   message = "success",
   origin = "*",
   request,
+  status = 200,
 }: TReturnSuccessResponseWithCors): Promise<Response> {
   return await cors(
     request,
@@ -42,6 +43,7 @@ export async function SuccessResponseWithCors({
         headers: {
           "Content-Type": "application/json",
         },
+        status,
       },
     ),
     {
