@@ -53,7 +53,7 @@ const Redeem = ({
     const res = await axios.get(`/discount/${couponCode}`, {
       withCredentials: true,
     });
-    if (res.status === 302) {
+    if (res.status === 200) {
       toast("Coupon code applied successfully!", {
         description: `Applied coupon code: ${couponCode}`,
       });
