@@ -1,31 +1,32 @@
 {% comment %} for production purposes, uncomment the following block {% endcomment %}
+
+<div
+  id="app-data-store"
+  data-product-id="{{ product.id | default: '' }}"
+  data-collection-id="{{ collection.id | default: '' }}"
+
+  data-customer-id="{{ customer.id | default: '' }}"
+
+  data-shop-id="{{ shop.id | json }}"
+  data-shop-name="{{ shop.name }}"
+  data-shop-domain="{{ shop.domain }}"
+  data-shop-url="{{ shop.url }}"
+></div>
+
+{% comment %} hardcoded values here. for previewing purposes only {% endcomment %}
 {% comment %}
   <div
     id="app-data-store"
     data-product-id="{{ product.id | default: '' }}"
     data-collection-id="{{ collection.id | default: '' }}"
 
-    data-customer-id="{{ customer.id | default: '' }}"
+    data-customer-id="9079883923746"
 
-    data-shop-id="{{ shop.id | json }}"
-    data-shop-name="{{ shop.name }}"
-    data-shop-domain="{{ shop.domain }}"
-    data-shop-url="{{ shop.url }}"
+    data-shop-id="93191569698"
+    data-shop-name="my-super-cool-test-store-yo"
+    data-shop-domain="my-super-cool-test-store-yo.myshopify.com"
   ></div>
 {% endcomment %}
-
-{% comment %} for previewing purposes only {% endcomment %}
-<div
-  id="app-data-store"
-  data-product-id="{{ product.id | default: '' }}"
-  data-collection-id="{{ collection.id | default: '' }}"
-
-  data-customer-id="9079883923746"
-
-  data-shop-id="93191569698"
-  data-shop-name="my-super-cool-test-store-yo"
-  data-shop-domain="my-super-cool-test-store-yo.myshopify.com"
-></div>
 
 <div id="react-root"></div>
 
